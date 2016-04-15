@@ -1,0 +1,7 @@
+{
+    "name": "jwatts/purchase_reqs",
+    "require": {
+        "catfan/medoo": "^1.0",
+        "slim/slim": "^3.0"
+    }
+}
