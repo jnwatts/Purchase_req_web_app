@@ -1,141 +1,182 @@
 <html>
 	<head>
-	<style>
-/* create columns 
-	.details {
-    -webkit-column-count: 3; /* Chrome, Safari, Opera */
-    -moz-column-count: 3; /* Firefox */
-    column-count: 3;
-	-webkit-column-rule-style: solid; /* Chrome, Safari, Opera */
-    -moz-column-rule-style: solid; /* Firefox */
-    column-rule-style: solid;
-	-webkit-column-rule-color: lightblue; /* Chrome, Safari, Opera */
-    -moz-column-rule-color: lightblue; /* Firefox */
-    column-rule-color: lightblue;
-	}
-*/	
-/* create fieldset frames */
-	fieldset { 
-    display: block;
-    margin-left: 2px;
-    margin-right: 2px;
-    padding-top: 0.35em;
-    padding-bottom: 0.625em;
-    padding-left: 0.75em;
-    padding-right: 0.75em;
-    border: 2px solid (internal value);
-	
-    position: absolute;
-    right: 100px;
-    width: 300px;
-    }
-	
-	
-<style type="text/css">
-label {
-	float: left;
-	width: 750px;
-	text-align: right;
-	padding-right: 12px;
-	clear: left;
-	}
-</style>
+	<title> Purchase req Create Page</title>
+	<link REL="StyleSheet" TYPE="text/css" HREF="Style.css">
 
-		<title> Purchase req Creation Page</title>
+
 	</head>
 	<body>
-	<h1> Create Purchase Requisition. </h1>
+		<h1> Create Purchase Requisition. </h1>
 	
-	<a href="Main page.html">Home</a>
+		<a href="Main page.html">Home</a>
 	<hr>
 	<Form>
-	<div class="details">
-	
+		<div class="details">
+			<div class="PruchaseData">
 <!--	<h2> Vendor Data </h2>  -->
-		<fieldset>
-		<legend> Vendor Data </legend>
-		<label for="QuoteNum">Vendor Quote Number:</label>
-		<input type="text" name="QuoteNum" title="Vendor Quote Number"><br><br>
+				<fieldset>
+					<legend> Purchasing Data </legend>
+<!-- fill this box with the next PR Number -->		
+					<label for="PurReqNum">PR Number:</label>
+					<input type="text" name="PurReqNum" title="Purchase Req Number">
+					<br>
+					<br>
+
+<!-- auto fill requestors Name from ldap -->
+					<label for="Requestor">Requestor:</label>
+					<input type="text" name="Requestor" title="Requestors Name"> 
+					<br>
+					<br>
+<!-- auto fill todays date -->
+					<label for="TodaysDate">Todays Date:</label>
+					<input type="Date" name="TodaysDate" title="Todays date">
+				</fieldset>
+			</div>
 		
-		<label for="VendName">Vendor Name:</label>
-		<input type="text" name="VendName" title="Vendor Name"><br><br>
+			<div class="VendorData">
+				<fieldset>
+					<legend> Vendor Data </legend>
+					<label for="QuoteNum">Vendor Quote Number:</label>
+					<input type="text" name="QuoteNum" title="Vendor Quote Number">
+					<br>
+					<br>
+		
+					<label for="VendName">Vendor Name:</label>
+					<input type="text" name="VendName" title="Vendor Name">
+					<br>
+					<br>
 		
 <!--		Vendor Address: <input type="text" name="Vendor Address" title="Vendor Address"><br><br>  -->
-		<label for="VendAdd">Vendor Address:</label>
-		<input type="text" name="VendAdd" title="Vendor Address"><br><br>
+					<label for="VendAdd">Vendor Address:</label>
+					<input type="text" name="VendAdd" title="Vendor Address">
+					<br>
+					<br>
 
 <!--		Vendor City: <input type="text" name="Vendor City" title="Vendor City"><br><br> -->
-		<label for="VendCity">Vendor City:</label>
-		<input type="text" name="VendCity" title="Vendor City"><br><br>
+					<label for="VendCity">Vendor City:</label>
+					<input type="text" name="VendCity" title="Vendor City">
+					<br>
+					<br>
 
 <!--		Vendor State: <input type="text" name="Vendor State" title="Vendor State"><br><br>	-->
-		<label for="VendState">Vendor State:</label>
-		<input type="text" name="VendState" title="Vendor State"><br><br>
+					<label for="VendState">Vendor State:</label>
+					<input type="text" name="VendState" title="Vendor State">
+					<br>
+					<br>
 
 <!--		Vendor Address: <input type="text" name="Vendor Zip Code" title="Vendor Zip Code"><br><br>  -->
-		<label for="VendZip">Vendor Zip Code:</label>
-		<input type="text" name="VendZip" title="Vendor "><br><br>
+					<label for="VendZip">Vendor Zip Code:</label>
+					<input type="text" name="VendZip" title="Vendor ">
+					<br>
+					<br>
 
 <!--		Vendor Phone Number: <input type="text" name="vendor phone" title="Vendor Phone Number"><br><br>  -->
-		<label for="VendPhnNum">Vendor Phone Number:</label>
-		<input type="text" name="VendPhnNum" title="Vendor Phone Number"><br><br>
+					<label for="VendPhnNum">Vendor Phone Number:</label>
+					<input type="text" name="VendPhnNum" title="Vendor Phone Number">
+					<br>
+					<br>
 
 <!--		Vendor Fax Number: <input type="text" name="vendor fax" title="Vendor Fax Number"><br><br>  -->
-		<label for="VendFaxNum">Vendor Fax Number:</label>
-		<input type="text" name="VendFaxNum" title="Vendor Fax Number"><br><br>
+					<label for="VendFaxNum">Vendor Fax Number:</label>
+					<input type="text" name="VendFaxNum" title="Vendor Fax Number">
+					<br>
+					<br>
 
 <!--		Vendor Contact: <input type="text" name="vendor contact" title="Vendor Contact"><br><br> -->
-		<label for="VendContact">Vendor Contact:</label>
-		<input type="text" name="VendContact" title="Vendor Contact"><br><br>
+					<label for="VendContact">Vendor Contact:</label>
+					<input type="text" name="VendContact" title="Vendor Contact">
+					<br>
+					<br>
 
 <!--		Vendor Email: <input type="email" name="vendor email" title="Vendor email"><br><br> -->
-		<label for="VendEmail">Vendor Email:</label>
-		<input type="text" name="VendEmail" title="Vendor Email"> <!-- <br><br><br> -->
-	</fieldset>
-<!-- this is crap 
-	<br><br><br><br><br><br><br>
- this is crap -->
-	<fieldset>
-	<legend>Project Data</legend>
-		Billable: <input type="radio" name="billable" value="one" title="billable"> Yes <input type="radio" name="billable" value="Zero" title="billable"> No <br><br> 
-		Customer Name: <input type="text" name="Customer Name" title="Customer Name"><br><br>
-		Project Name: <input type="text" name="Project Name" title="Project Name"><br><br>
-		Account Number: <input type="text" name="Account Number" title="Account Number"> (XXX-XXX)<br><br>
-		Date: <input type="Date" name="Date" title="Todays date"><br><br>
-		Requestor: <input type="text" name="Requestor" title="Requestors Name"> <!--  <br><br><br><br><br><br> -->
-	</fieldset>
-<!-- this is crap 
-	<br><br><br><br><br><br><br><br>
- this is crap -->
-	<fieldset>
-	<legend>Delivery Data</legend>
-		Carrier: <Select>
-			<option value="FedEx">FedEx</option>
-			<option value="UPS">UPS</option>
-			<option value="DHL">DHL</option>
-			<option value="Truck">Truck</option>
-			<option value="Other">Other</option>
-			</select>
-		Delivery Method: <select>
-			<option value="Priority Overnight">Priority Overnight</option>
-			<option value="Standard Overnight">Standard Overnight</option>
-			<option value="2 Day">2 Day</option>
-			<option value="3 Day">3 day</option>
-			<option value="Ground">Ground</option>
-		</select><br><br>
-		Delivery Date: <input type="date" name="Delivery Date" title="Delivery Date"><br><br>	
-		Deliver To: <input type="text" name="Deliver To" title="Deliver To"><br><br>
+					<label for="VendEmail">Vendor Email:</label>
+					<input type="email" name="VendEmail" title="Vendor Email"> <!-- <br><br><br> -->
+				</fieldset>
+
+			<div class="Billing">
+				<fieldset>
+				<legend>Billing Data</legend>
+<!--		Billable selection -->
+					<label for="billable">Billable:</label>
+					<input type="radio" name="billable" value="one" title="billable"> Yes <input type="radio" name="billable" value="Zero" title="billable"> No 
+					<br>
+					<br>
+<!--  must validate that one of them is selected -->
+
+<!--		Customer Name -->
+					<label for="Customer Name">Customer Name:</label>
+					<input type="text" name="Customer Name" title="Customer Name">
+					<br>
+					<br>
+
+<!--		Project Name -->
+					<label for="Project Name">Project Name:</label>
+					<input type="text" name="Project Name" title="Project Name">
+					<br>
+					<br>
+
+<!--		Account Number -->
+					<label for="Account Number">Account Number:</label>
+					<input type="text" name="Account Number" title="Account Number" placeholder="00C-011">
+				</fieldset>
+			</div>
+
+
+			<div class="Delivery">
+				<fieldset>
+				<legend>Delivery Data</legend>
+					Carrier: <Select>
+						<option value="FedEx">FedEx</option>
+						<option value="UPS">UPS</option>
+						<option value="DHL">DHL</option>
+						<option value="Truck">Truck</option>
+						<option value="Other">Other</option>
+					</select>
+					Delivery Method: <select>
+						<option value="Priority Overnight">Priority Overnight</option>
+						<option value="Standard Overnight">Standard Overnight</option>
+						<option value="2 Day">2 Day</option>
+						<option value="3 Day">3 day</option>
+						<option value="Ground">Ground</option>
+					</select>
+					<br>
+					<br>
+						<label for="Delivery Date">Delivery Date:</label>
+						<input type="date" name="Delivery Date" title="Delivery Date">
+						<br>
+						<br>	
+					
+						<label for="Deliver To">Deliver To:</label>
+						<input type="text" name="Deliver To" title="Deliver To">
+						<br>
+						<br>
 	<!-- if any other place than D3 show the below-->
-		Delivery Address: <input type="text" name="Delivery Address" title="Delivery Address"><br><br>
-		Delivery City: <input type="text" name="Delivery City" title="Delivery City"><br><br>
-		Delivery Zip: <input type="text" name="Delivery Zip" title="Delivery Zip"><br><br>
-		Delivery Phone: <input type="text" name="Delivery Phone" title="Delivery Phone"> <!--<br><br><br><br><br><br> -->
-	</fieldset>	
+						<label for="Delivery Address">Delivery Address:</label>
+						<input type="text" name="Delivery Address" title="Delivery Address">
+						<br>
+						<br>
+					
+						<label for="Delivery City">Delivery City:</label>
+						<input type="text" name="Delivery City" title="Delivery City">
+						<br>
+						<br>
+					
+						<label for="Delivery Zip">Delivery Zip:</label>
+						<input type="text" name="Delivery Zip" title="Delivery Zip">
+						<br>
+						<br>
+					
+						<label for="Delivery Phone">Delivery Phone:</label>
+						<input type="text" name="Delivery Phone" title="Delivery Phone">
+				</fieldset>
+			</div>
 <!-- this is crap 
 	<br><br><br><br><br><br><br><br><br><br><br>
 this is crap -->
 	</div>
 	<p>
+	
+	<div class="items">
 	<h2>Items</h2>
 	
 		Part Number: <input type="text" name="Part Number 1" title="Part number">
