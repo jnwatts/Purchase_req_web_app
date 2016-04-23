@@ -2,13 +2,20 @@
 	<head>
 	<title> Purchase req Create Page</title>
 	<link REL="StyleSheet" TYPE="text/css" HREF="Style.css">
-
+	<link rel="icon" type="image/gif" href="index.gif"> 
 
 	</head>
 	<body>
 		<h1> Create Purchase Requisition. </h1>
 	
 		<a href="Main page.html">Home</a>
+		<p>
+		TO DO:
+		<ul>
+			<li> make JS for adding more items with add button</li>
+			<li> make JS for totaling cost when qty and price lose focus</li>
+			<li> add element for selecting first approvales from LDAP </li>
+		</ul>
 	<hr>
 	<Form>
 		<div class="details">
@@ -18,7 +25,7 @@
 					<legend> Purchasing Data </legend>
 <!-- fill this box with the next PR Number -->		
 					<label for="PurReqNum">PR Number:</label>
-					<input type="text" name="PurReqNum" title="Purchase Req Number">
+					<input type="text" name="PurReqNum" title="Purchase Req Number" value="1234" readonly>
 					<br>
 					<br>
 
@@ -92,7 +99,7 @@
 					<label for="VendEmail">Vendor Email:</label>
 					<input type="email" name="VendEmail" title="Vendor Email"> <!-- <br><br><br> -->
 				</fieldset>
-
+			</div>
 			<div class="Billing">
 				<fieldset>
 				<legend>Billing Data</legend>
@@ -117,7 +124,7 @@
 
 <!--		Account Number -->
 					<label for="Account Number">Account Number:</label>
-					<input type="text" name="Account Number" title="Account Number" placeholder="00C-011">
+					<input type="text" name="Account Number" title="Account Number" placeholder="00C-011" maxlength="7">
 				</fieldset>
 			</div>
 
@@ -170,58 +177,69 @@
 						<input type="text" name="Delivery Phone" title="Delivery Phone">
 				</fieldset>
 			</div>
-<!-- this is crap 
+<!-- this is 	crap 
 	<br><br><br><br><br><br><br><br><br><br><br>
 this is crap -->
 	</div>
 	<p>
-	
+	<button onclick="initLines()">Click me</button>
 	<div class="items">
 	<h2>Items</h2>
-	
+		<div class="lineItem" data-index="1">
 		Part Number: <input type="text" name="Part Number 1" title="Part number">
 		Descripton: <input type="text" name="Descripton 1" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 1" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 1" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 2" title="Part number">
-		Descripton: <input type="text" name="Descripton 2" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 2" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 2" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 3" title="Part number">
-		Descripton: <input type="text" name="Descripton 3" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 3" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 3" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 4" title="Part number">
-		Descripton: <input type="text" name="Descripton 4" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 4" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 4" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 5" title="Part number">
-		Descripton: <input type="text" name="Descripton 5" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 5" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 5" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 6" title="Part number">
-		Descripton: <input type="text" name="Descripton 6" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 6" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 6" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 7" title="Part number">
-		Descripton: <input type="text" name="Descripton 7" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 7" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 7" title="Price each"><br><br>
-		
-		Part Number: <input type="text" name="Part Number 8" title="Part number">
-		Descripton: <input type="text" name="Descripton 8" title="Descripton">	
-		Quantity: <input type="text" name="Quantity 8" title="Quantity To Purchase">
-		Price: <input type="text" name="Price 8" title="Price each"><br><br>
-		
+		Quantity: <input type="text" id="qty" name="Quantity 1" title="Quantity To Purchase">
+		Price: <input type="text" id="price" name="Price 1" title="Price each">
+		Line Total: <input type="text" id="lineTotal" name="Line 1 Total" readonly><br><br>
+		</div>
+						
 	</p>
 	
 	</form>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.js"> </script>
+	<script type="text/javascript"> 
+	$(function(){
+	
+	var lineItem = $("div.lineItem");   // one or more line items
+	var qty = lineItem.find("#qty");
+	var price = lineItem.find("#price");
+//	var lineTotal = lineItem.find("#lineTotal");
+	qty.on("change",calc_line_total);
+	price.on("change", calc_line_total);
+	var items = [
+	{partNum: 1,description: 2,Qty: 3,Price: 4},
+	{partNum: "partNumq",description: 2,Qty: 3,Price: 4},
+	];
+	})
+
+//create table
+	function initLines(items){
+	items.forEach(function(item){
+		var lineItem = $("<div/>");
+		lineitem.addClass("lineItem");
+// apend to object		
+		$() .insertAfter( "#lineItem");
+	});
+	}
+	
+	
+//	CALULATE LINE TOTAL ON CHANGE
+		function calc_line_total(event){
+		var obj = $(event.target);
+		var lineItem = obj.closest("div.lineItem");
+		var qty = lineItem.find("#qty").val();
+		var	price = lineItem.find("#price").val();
+		var lineTotal = qty * price;
+		lineItem.find("#lineTotal").val(lineTotal);
+		}	
+
+		
+	
+	
+	</script>
+	
+	
 	
 	
 	

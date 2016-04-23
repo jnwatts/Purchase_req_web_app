@@ -3,7 +3,7 @@
 
 
 body { 
-background-color: #FFFFF0; 
+background-color: f0f5f5; 
 font-family: Arial, Verdana, sans-serif; 
 font-size: 18px; 
 color: #00008B;
@@ -24,12 +24,13 @@ fieldset {
 
 div.billing{
 	position:absolute;
-	top:106px;
+/*	top:106px;*/
+	top:250px;
 	left:500px;
 	}
 div.Delivery{
 	position:absolute;
-	top: 300px;
+	top: 450px;
 	left:500px;
 	}
 /*	
