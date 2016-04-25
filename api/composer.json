@@ -3,5 +3,10 @@
     "require": {
         "catfan/medoo": "^1.0",
         "slim/slim": "^3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "PurchaseReqs\\": "src/"
+        }
     }
 }
