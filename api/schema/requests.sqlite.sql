@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS "requests" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "QuoteNum" TEXT UNIQUE ON CONFLICT FAIL,
+    "VendName" TEXT,
+    "VendAdd" TEXT,
+    "VendCity" TEXT,
+    "VendState" TEXT,
+    "VendZip" TEXT,
+    "VendPhnNum" TEXT,
+    "VendFaxNum" TEXT,
+    "VendContact" TEXT,
+    "billable" TEXT,
+    "Customer_Name" TEXT,
+    "Project_Name" TEXT,
+    "Account_Number" TEXT,
+    "Date" INTEGER,
+    "Delivery_Date" INTEGER,
+    "Deliver_To" TEXT,
+    "Delivery_Address" TEXT,
+    "Delivery_City" TEXT,
+    "Delivery_Zip" TEXT
+);
