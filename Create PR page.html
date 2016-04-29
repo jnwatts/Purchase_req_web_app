@@ -14,7 +14,16 @@
 		<ul>
 			<li> make JS for adding more items with add button</li>
 			<li> make JS for totaling cost when qty and price lose focus</li>
-			<li> add element for selecting first approvales from LDAP </li>
+			
+			<li> add JS to read approvales from DB and populate drop downs</li>
+			<li> process page</li>
+			<ul>
+				<li> add code to validate entries are filled out </li>
+				<li> write to DB </li>
+				<li> add code to send email to first approver and submitter when submitted </li>
+				<li> call page that states the PR Number and the next approver </li>
+			</ul>
+			<li style="color:red;"> DONE add element for selecting first approvales color:red</li>
 		</ul>
 	<hr>
 	<Form>
@@ -23,12 +32,12 @@
 <!--	<h2> Vendor Data </h2>  -->
 				<fieldset>
 					<legend> Purchasing Data </legend>
-<!-- fill this box with the next PR Number -->		
+<!-- fill this box with the next PR Number nope not doing this here		
 					<label for="PurReqNum">PR Number:</label>
 					<input type="text" name="PurReqNum" title="Purchase Req Number" value="1234" readonly>
 					<br>
 					<br>
-
+-->
 <!-- auto fill requestors Name from ldap -->
 					<label for="Requestor">Requestor:</label>
 					<input type="text" name="Requestor" title="Requestors Name"> 
@@ -43,61 +52,68 @@
 			<div class="VendorData">
 				<fieldset>
 					<legend> Vendor Data </legend>
-					<label for="QuoteNum">Vendor Quote Number:</label>
+					<label for="QuoteNum">Quote Number:</label>
 					<input type="text" name="QuoteNum" title="Vendor Quote Number">
 					<br>
 					<br>
 		
-					<label for="VendName">Vendor Name:</label>
+					<label for="VendName">Name:</label>
 					<input type="text" name="VendName" title="Vendor Name">
 					<br>
 					<br>
 		
 <!--		Vendor Address: <input type="text" name="Vendor Address" title="Vendor Address"><br><br>  -->
-					<label for="VendAdd">Vendor Address:</label>
+					<label for="VendAdd">Address:</label>
 					<input type="text" name="VendAdd" title="Vendor Address">
 					<br>
 					<br>
 
 <!--		Vendor City: <input type="text" name="Vendor City" title="Vendor City"><br><br> -->
-					<label for="VendCity">Vendor City:</label>
+					<label for="VendCity">City:</label>
 					<input type="text" name="VendCity" title="Vendor City">
 					<br>
 					<br>
 
 <!--		Vendor State: <input type="text" name="Vendor State" title="Vendor State"><br><br>	-->
-					<label for="VendState">Vendor State:</label>
+					<label for="VendState">State:</label>
 					<input type="text" name="VendState" title="Vendor State">
 					<br>
 					<br>
 
 <!--		Vendor Address: <input type="text" name="Vendor Zip Code" title="Vendor Zip Code"><br><br>  -->
-					<label for="VendZip">Vendor Zip Code:</label>
-					<input type="text" name="VendZip" title="Vendor ">
+					<label for="VendZip">Zip Code:</label>
+					<input type="text" name="VendZip" title="Vendor Zip Code">
 					<br>
 					<br>
 
 <!--		Vendor Phone Number: <input type="text" name="vendor phone" title="Vendor Phone Number"><br><br>  -->
-					<label for="VendPhnNum">Vendor Phone Number:</label>
+					<label for="VendPhnNum">Phone Number:</label>
 					<input type="text" name="VendPhnNum" title="Vendor Phone Number">
 					<br>
 					<br>
 
 <!--		Vendor Fax Number: <input type="text" name="vendor fax" title="Vendor Fax Number"><br><br>  -->
-					<label for="VendFaxNum">Vendor Fax Number:</label>
+					<label for="VendFaxNum">Fax Number:</label>
 					<input type="text" name="VendFaxNum" title="Vendor Fax Number">
 					<br>
 					<br>
 
 <!--		Vendor Contact: <input type="text" name="vendor contact" title="Vendor Contact"><br><br> -->
-					<label for="VendContact">Vendor Contact:</label>
+					<label for="VendContact">Contact:</label>
 					<input type="text" name="VendContact" title="Vendor Contact">
 					<br>
 					<br>
 
 <!--		Vendor Email: <input type="email" name="vendor email" title="Vendor email"><br><br> -->
-					<label for="VendEmail">Vendor Email:</label>
+					<label for="VendEmail">Email:</label>
 					<input type="email" name="VendEmail" title="Vendor Email"> <!-- <br><br><br> -->
+					<br>
+					<br>
+<!--		Vendor Email: <input type="email" name="vendor email" title="Vendor email"><br><br> -->
+					<label for="VendWebSite">WebSite:</label>
+					<input type="VendWebSite" name="VendWebSite" title="Vendor Web Site"> <!-- <br><br><br> -->
+
+
 				</fieldset>
 			</div>
 			<div class="Billing">
@@ -145,6 +161,7 @@
 						<option value="2 Day">2 Day</option>
 						<option value="3 Day">3 day</option>
 						<option value="Ground">Ground</option>
+						<option value="Will Call">Will Call</option>
 					</select>
 					<br>
 					<br>
@@ -153,36 +170,63 @@
 						<br>
 						<br>	
 					
-						<label for="Deliver To">Deliver To:</label>
-						<input type="text" name="Deliver To" title="Deliver To">
+						<label for="Attention">Attention:</label>
+						<input type="text" name="Attention" title="Attention">
 						<br>
 						<br>
 	<!-- if any other place than D3 show the below-->
-						<label for="Delivery Address">Delivery Address:</label>
-						<input type="text" name="Delivery Address" title="Delivery Address">
+						<label for="Street Address">Street Address:</label>
+						<input type="text" name="Street Address" title="Street Address">
 						<br>
 						<br>
 					
-						<label for="Delivery City">Delivery City:</label>
+						<label for="Delivery City">City:</label>
 						<input type="text" name="Delivery City" title="Delivery City">
 						<br>
 						<br>
 					
-						<label for="Delivery Zip">Delivery Zip:</label>
+						<label for="Delivery Zip">Zip:</label>
 						<input type="text" name="Delivery Zip" title="Delivery Zip">
 						<br>
 						<br>
 					
-						<label for="Delivery Phone">Delivery Phone:</label>
+						<label for="Delivery Phone">Phone:</label>
 						<input type="text" name="Delivery Phone" title="Delivery Phone">
 				</fieldset>
 			</div>
-<!-- this is 	crap 
-	<br><br><br><br><br><br><br><br><br><br><br>
-this is crap -->
+	
+	
+	<div class="Approvals">
+				<fieldset>
+				<legend>Approvals</legend>
+
+				Project Manager: <Select>
+<!-- Would like to ready this from a file or the DB -->
+						<option value="Jerome B.">Jerome B.</option>
+						<option value="Jason E.">Jason E.</option>
+						<option value="Andy S.">Andy S.</option>
+						<option value="Marty S.">Marty S.</option>
+						<option value="Jason S.">Jason S.</option>
+						<option Value="Alex S.">Alex S.</option>
+						<option Value="Jon W.">Jon W.</option>
+						<option Value="Tim 0.">Tim O.</option>
+					</select>
+					<br>
+					Accounting: <select>
+						<option value="Mike D.">Mike D.</option>
+						<option value="Matt Q.">Matt Q.</option>
+					</select>
+					<br>
+					Mangment: <select>
+						<option value="Scott R.">Scott R.</option>
+					</select>
+				</fieldset>
+			</div>
+	
 	</div>
 	<p>
 	<button onclick="initLines()">Click me</button>
+	<input type="submit" value="Submit"
 	<div class="items">
 	<h2>Items</h2>
 		<div class="lineItem" data-index="1">
@@ -215,7 +259,7 @@ this is crap -->
 
 //create table
 	function initLines(items){
-	items.forEach(function(item){
+	items.Each(function(item){
 		var lineItem = $("<div/>");
 		lineitem.addClass("lineItem");
 // apend to object		
