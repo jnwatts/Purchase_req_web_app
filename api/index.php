@@ -10,9 +10,6 @@ require $config_file;
 
 $loader = require BASE_PATH . '/vendor/autoload.php';
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
-
 $container = new \Slim\Container([
     'settings' => [
         'displayErrorDetails' => true,
