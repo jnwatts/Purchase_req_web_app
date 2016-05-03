@@ -2,7 +2,8 @@
     "name": "jwatts/purchase_reqs",
     "require": {
         "catfan/medoo": "^1.0",
-        "slim/slim": "^3.0"
+        "slim/slim": "^3.0",
+        "oscarotero/psr7-middlewares": "^3.15"
     },
     "autoload": {
         "psr-0": {
