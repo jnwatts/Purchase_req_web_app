@@ -112,7 +112,7 @@ return array(
     'PurchaseReqs\\Controller' => $baseDir . '/src/Controller.php',
     'PurchaseReqs\\Ldap' => $baseDir . '/src/Ldap.php',
     'PurchaseReqs\\Requests' => $baseDir . '/src/Requests.php',
-    'PurchaseReqs\\User' => $baseDir . '/src/User.php',
+    'PurchaseReqs\\Users' => $baseDir . '/src/Users.php',
     'Slim\\App' => $vendorDir . '/slim/slim/Slim/App.php',
     'Slim\\CallableResolver' => $vendorDir . '/slim/slim/Slim/CallableResolver.php',
     'Slim\\CallableResolverAwareTrait' => $vendorDir . '/slim/slim/Slim/CallableResolverAwareTrait.php',
