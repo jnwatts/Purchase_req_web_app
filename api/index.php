@@ -1,7 +1,13 @@
 <?php
 define('PURCHASE_REQS', 1);
 define('BASE_PATH', __DIR__);
-require BASE_PATH . '/config.inc.php';
+
+$config_file = BASE_PATH . '/config.inc.php';
+if (!file_exists($config_file)) {
+    die('You must create ' . $config_file . ' before using this API. See config.inc.sample.php for inspiration.');
+}
+require $config_file;
+
 $loader = require BASE_PATH . '/vendor/autoload.php';
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
