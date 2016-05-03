@@ -19,6 +19,9 @@ $container = new \Slim\Container([
 ]);
 $app = new \Slim\App($container);
 
+use \Psr7Middlewares\Middleware\TrailingSlash;
+$app->add(new TrailingSlash(false));
+
 $app->get('/requests[/{req}]', '\PurchaseReqs\Requests:get');
 $app->post('/requests[/{req}]', '\PurchaseReqs\Requests:post');
 $app->delete('/requests/{req}', '\PurchaseReqs\Requests:delete');
