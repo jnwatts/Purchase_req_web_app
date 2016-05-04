@@ -60,7 +60,7 @@ class Users extends Controller {
     public function import($username) {
         $error = null;
         $ldap = new Ldap($this->ci);
-        $ldap_user = $ldap->getUser($_SERVER["PHP_AUTH_USER"]);
+        $ldap_user = $ldap->getUser($username);
         $this->db()->action(function ($db) use (&$ldap_user, &$error) {
             $success = true;
 
