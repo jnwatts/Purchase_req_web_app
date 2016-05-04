@@ -81,12 +81,4 @@ class Users extends Controller {
             throw $error;
         }
     }
-
-    public function test($request, $response, $args) {
-        $ldap = new Ldap($this->ci);
-
-        $result = $ldap->getUser($_SERVER["PHP_AUTH_USER"]);
-
-        return $response->getBody()->write(json_encode($result, true));
-    }
 }
