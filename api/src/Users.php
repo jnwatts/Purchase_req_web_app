@@ -3,11 +3,24 @@ namespace PurchaseReqs;
 if (!defined('PURCHASE_REQS')) { die('Oops!'); }
 
 class Users extends Controller {
+    private $override_auth_user = false;
+    private $user_debug = [];
+
     public function __construct($ci) {
         $this->tables = [
             'users',
         ];
         parent::__construct($ci);
+
+        if (isset($ci->config['user_debug'])) {
+            $user_debug = $ci->config['user_debug'];
+        } else {
+            $user_debug = [];
+        }
+        if ($user_debug && isset($user_debug['override_auth_user'])) {
+            $this->override_auth_user = $user_debug['override_auth_user'];
+            $this->user_debug = $user_debug;
+        }
     }
 
     public function get($request, $response, $args) {
@@ -51,6 +64,18 @@ class Users extends Controller {
     public function delete($request, $response, $args) {
     }
 
+    public function initAuthUser($username) {
+        if ($this->override_auth_user) {
+            $username = $this->user_debug['user_fields']['username'];
+        }
+        if (empty($username)) {
+            throw \Exception("Username is empty");
+        }
+        if (!$this->exists($username)) {
+            $this->import($username);
+        }
+    }
+
     public function exists($username) {
         $db = $this->db();
         $result = $db->select('users', 'id', ['users.username[~]' => $username]);
@@ -60,7 +85,11 @@ class Users extends Controller {
     public function import($username) {
         $error = null;
         $ldap = new Ldap($this->ci);
-        $ldap_user = $ldap->getUser($username);
+        if ($this->override_auth_user) {
+            $ldap_user = $this->user_debug['user_fields'];
+        } else {
+            $ldap_user = $ldap->getUser($username);
+        }
         $this->db()->action(function ($db) use (&$ldap_user, &$error) {
             $success = true;
 

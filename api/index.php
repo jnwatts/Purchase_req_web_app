@@ -20,13 +20,10 @@ $container = new \Slim\Container([
 $app = new \Slim\App($container);
 
 $users = new \PurchaseReqs\Users($container);
-$username = $_SERVER["PHP_AUTH_USER"];
-if (!$users->exists($username)) {
-    try {
-        $result = $users->import($username);
-    } catch (\Exception $e) {
-        die($e->getMessage());
-    }
+try {
+    $users->initAuthUser($_SERVER["PHP_AUTH_USER"]);
+} catch (\Exception $e) {
+    die($e->getMessage());
 }
 
 use \Psr7Middlewares\Middleware\TrailingSlash;
