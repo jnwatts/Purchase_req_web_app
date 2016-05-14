@@ -8,6 +8,7 @@ if (isset($_GET['id'])) {
 <html>
 <body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="src/requests.js"></script>
 
 <?if (!$id) {?>
 <ul id="requests">
@@ -22,11 +23,12 @@ if (isset($_GET['id'])) {
 </div>
 <script type="text/javascript">
 $(function() {
-    var form = $('form#test');
-    form.on('submit', function(event) {
+    window.requests = new Requests({base_href: '/~jwatts/purchase_reqs/api'});
+    window.req_form = $('form#test');
+    window.req_form.on('submit', function(event) {
         event.preventDefault();
-        var req = req_from_form();
-        put_request(req)
+        var req = req_from_form(window.req_form);
+        window.requests.put_or_add(req)
             .done(function(data) {
                 update_request_list();
                 form[0].reset();
@@ -38,10 +40,11 @@ $(function() {
     });
 
     update_request_list();
+
 });
 
 window.update_request_list = function() {
-    $.getJSON("requests")
+    window.requests.get()
         .done(function(data) {
             var ul = $('ul#requests');
             ul.children().remove();
@@ -75,23 +78,28 @@ window.update_request_list = function() {
 </div>
 <script type="text/javascript">
 $(function() {
+    window.requests = new Requests({base_href: '/~jwatts/purchase_reqs/api'});
     window.request_id = <?=$id?>;
+    window.req_form = $('form#test');
 
-    get_request(request_id)
+    window.requests.get(request_id)
         .done(function(data) {
+            form_from_req(window.req_form, data[0]);
             $('#raw-data').text(JSON.stringify(data[0], null, 2));
         });
-    var form = $('form#test');
-    form.on('submit', function(event) {
+    window.req_form.on('submit', function(event) {
         event.preventDefault();
-        var req = req_from_form();
-        put_request(req)
+        var req = req_from_form($(this));
+        window.requests.put_or_add(req)
+            .done(function(data) {
+                form_from_req(window.req_form, data[0]);
+            })
             .fail(function(data) {
                 alert(data.responseJSON.errors[0].detail);
             });
         return false;
     });
-    form.children('[value="Delete"]').on('click', function (e) {
+    window.req_form.children('[value="Delete"]').on('click', function (e) {
         $.get({
             url: 'requests/' + request_id,
             method: 'DELETE',
@@ -105,9 +113,8 @@ $(function() {
 <?}?>
 
 <script type="text/javascript">
-window.req_from_form = function() {
+window.req_from_form = function(form) {
     var req = {};
-    var form = $('form#test');
     form.children('input').each(function (index) {
         var input = $(this);
         if (input.attr('type') == 'submit' || input.attr('type') == 'reset' || input.attr('type') == 'button') {
@@ -118,8 +125,7 @@ window.req_from_form = function() {
     return req;
 };
 
-window.form_from_req = function(req) {
-    var form = $('form#test');
+window.form_from_req = function(form, req) {
     $.each(req, function(key, val) {
         form.children('input[name="'+key+'"]')
             .val(val)
@@ -128,29 +134,8 @@ window.form_from_req = function(req) {
 };
 
 window.get_request = function(req) {
-    var form = $('form#test');
+    var form = window.req_form;
     return $.getJSON("requests/"+req)
-        .done(function(data) {
-            form_from_req(data[0]);
-        });
-};
-
-window.put_request = function(req) {
-    if (req.id) {
-        return $.post({
-            url: "requests/"+req.id,
-            data: JSON.stringify(req),
-            contentType: "application/json; charset=UTF-8",
-            processData: false,
-        })
-        .fail(function(data) {
-            if (data.status == 404) {
-                return add_request(req);
-            }
-        });
-    } else {
-        return add_request(req);
-    }
 };
 
 window.add_request = function(req) {
