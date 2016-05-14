@@ -65,7 +65,7 @@ class Requests extends Controller {
             unset($r->id);
         }
 
-        $this->db()->action(function ($db) use (&$r, &$response, &$req) {
+        $this->db()->action(function ($db) use (&$r, &$request, &$response, &$req) {
             $success = true;
             try {
 
@@ -97,8 +97,7 @@ class Requests extends Controller {
                     }
                 }
 
-                $result = $this->formatResponse(['id' => $req]);
-                $response->getBody()->write($result);
+                $response = $this->get($request, $response, ['req' => $req]);
             } catch(\Exception $e) {
                 $response = $this->formatError(400, $e->getMessage(), $response);
                 $success = false;
