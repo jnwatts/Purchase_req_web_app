@@ -2,43 +2,76 @@
 	<head>
 		<title> Purchase Approval Page</title>
 			<link REL="StyleSheet" TYPE="text/css" HREF="Style.css">
-			<link rel="icon" type="image/gif" href="index.gif"> 
+			<link rel="icon" type="image/gif" href="index.gif">
 
 	</head>
 	<body>
-	<h1> Approve Purchase Requisation. </h1>
-	
-	<a href="Main page.html">Home</a>
-	
-	<p> 
+	<h1> LDAP User you have n Purchase Requisation to Approve. </h1>
+
+	<a href="index.html">Home</a>
+
+	<p>
 		TO DO:
 		<ul>
 			<li>show current user from ldap</li>
-			<b><li>Use the details page</li></b>
-			<ul> <li>Show only prs this user can approve</li>
+			<li>Show only prs this user can approve</li>
 			<li>link in first cell to open create page but with no submit button</li>
-			<li>check box for current user to approve</li></ul>
+			<li>make other radio buttons "readonly"</li></ul>
 			<li> button function</li>
-			<ul>	<li>JS for figuring out next step, approvales based on total cost or order </li>
+			<ul>	<li>JS for figuring out next step, approvales based on total cost or
+				 order </li>
 				<li>email user and next in line</li>
 				<li> DB write</li>
-			</ul>	
+			</ul>
 		</ul>
 	</p>
-	<p>
+
 		<table>
 			<tr>
-				<th>PR NUMBER</th>
-			</tr>	
-				
-			<tr>	
-				<td> <a href="http://www.google.com">1254</a></td>
-			</tr>	
+				<th> PR #</th>
+				<th> Status</th>
+				<th> PO #</th>
+				<th> Customer</th>
+				<th> Project</th>
+				<th> Account #</th>
+				<th> Vendor </th>
+				<th> Total Cost </th>
+				<th> PM Approver </th>
+				<!-- show this if a PM is signed -->
+				<th> Acceptance </th>
+				<th> Accounting Approver </th>
+				<!-- show this if accounting is signed -->
+				<th> Acceptance </th>
+				<th> Managment Approver </th>
+				<!-- show this if managment is signed -->
+				<th> Acceptance </th>
+			</tr>
+			<tr>
+				<td> <a href="index.html">home</a> </td>   <!--  Make this a link that will show all details-->
+				<td> Accounting Pend </td>  <!-- this needs to be the current state Approved;PM pending,accounting Pend; Managment Pend; rejected-->
+				<td> 4753 </td>
+				<td> D3 </td>
+				<td> TDA3 </td>
+				<td> 00C-011 </td>
+				<td> Digi-Key </td>
+				<td> $1523.89 </td>
+				<td> Tim OBrien</td>
+				<!-- show this if PM is signed in-->
+				<td> <input type="radio" name="PmAcceptance" value="one" title="Approve"> Approved<br>
+					<input type="radio" name="PmAcceptance" value="Zero" checked=""title="Reject"> Rejected
+				<td> Mike D. </td>
+				<!-- show this if accouting is signed in-->
+				<td> <input type="radio" name="PmAcceptance" value="one" title="Approve"> Approved<br>
+					<input type="radio" name="PmAcceptance" value="Zero" title="Reject"> Rejected
+				<td> Scott R. </td>
+				<!-- show this if nanagment is signed in-->
+				<td> <input type="radio" name="PmAcceptance" value="one" title="Approve"> Approved<br>
+					<input type="radio" name="PmAcceptance" value="Zero" title="Reject"> Rejected
+			</tr>
 		</table>
-</p>
 
 	</body>
-	
+
 
 
 </html>

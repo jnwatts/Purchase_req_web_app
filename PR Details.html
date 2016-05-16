@@ -2,26 +2,27 @@
 	<head>
 		<title> Purchase req Details Page</title>
 		<link REL="StyleSheet" TYPE="text/css" HREF="Style.css">
-		<link rel="icon" type="image/gif" href="index.gif"> 
-	
+		<link rel="icon" type="image/gif" href="index.gif">
+
 	</head>
 	<body>
 	<h1> Purchase Requisition Details </h1>
-	
-	<a href="Main page.html">Home</a>
+
+	<a href="index.html">Home</a>
 	<p>
 	TO DO:
 	<ul>
 		<li>input for user to input PO number</li>
-		<li>JS code when </li>	
+		<li>JS code when </li>
 	</ul>
 <button onclick="initLines()">Process checked RPs</button>
 <br>
 <br>
 	<table style="width:100%">
 		<tr>
+			<th> </th> <!-- only visable  -->
 			<th> PR #</th>
-			<th> Status</th> 
+			<th> Status</th>
 			<th> PO #</th>
 			<th> Customer</th>
 			<th> Project</th>
@@ -33,7 +34,8 @@
 			<th> Accounting Approval </th>
 		</tr>
 		<tr>
-			<td> 1234 </td>   <!--  Make this a link -->
+			<td> <input type="checkbox"> </td>
+			<td> 1234 </td>   <!--  Make this a link that will show all details-->
 			<td> Appoved </td>
 			<td> <input type="text" name="PoNumber"></td>  <!-- make this an input only if a purchaser is signed in -->
 			<td> D3 </td>
@@ -45,10 +47,10 @@
 			<td> Mike D. </td> <!-- make this a check box if accounting is signed in -->
 			<td> Scott R. </td> <!-- make this a check box if a Managment is signed in -->
 		</tr>
-			
+
 		</body>
 
 
-	
+
 
 </html>
