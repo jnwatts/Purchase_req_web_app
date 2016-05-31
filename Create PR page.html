@@ -15,14 +15,15 @@
 		<ul>
 			<li style="color:red;"><s> make JS for adding more items with add button</s></li>
 				<ul>
-					<li> <s>first click on add button reloads page with submit items</s></li>
+					<li> <s style="color:red;">first click on add button reloads page with submit items</s></li>
 				</ul>
-				<li> when delete need to reorder line item numbers </li>
-			<li> make JS for totaling cost when qty and price CHANGE</li>
+				<li><s style="color:red;"> when delete need to reorder line item numbers </s></li>
+			<li><s style="color:red;"> make JS for totaling cost when qty and price CHANGE</s></li>
 				<ul>
 						<li> <s style="color:red;">works for first entry not 2nd</s></li>
-						<li> round line total </li>
+						<li><s style="color:red;"> round line total </s></li>
 				</ul>
+				<li> remove the selects for upper managment do an apend to add them when pr total dictates </li>
 			<li> add JS to read approvales from DB and populate drop downs</li>
 			<li> process page</li>
 			<ul>
@@ -226,9 +227,9 @@
 						<option value="Matt Q.">Matt Q.</option>
 					</select>
 					<br>
-					<label for="managment"> Management:</label>
-				 <select name="managment">
-						<option value="Scott R.">Scott R.</option>
+					<label id = "managment" for="managment"> Management:</label>
+				 <select id = "managment" name="managment">
+						<option id = "managment" value="Scott R.">Scott R.</option>
 					</select>
 				</fieldset>
 			</div>
@@ -246,8 +247,6 @@
 	<div class="items">
 <hr>
 	<h2>Items</h2>
-<button id="stuff">stuff</button>
-
 	<table class="lineItemTable" id="lit">
 		<thead>
 			<tr>
@@ -272,8 +271,8 @@
 				<td> <input type="text" name="description" size="40"></td>
 				<td> <input type="number" id="qty" name="Quantity" size="10" maxlength="10"></td>
 				<td> <input type="text" id="price" name="priceEach" size="10"></td>
-				<td> <input type="text" id="lineTotal" name="Line Total" size="10"></td>
-				<td></td>
+				<td id="lineTotal"></td>
+				<td> <input type="button" Delete value="Delete"></td>
 			</tr>
 
 </table>
@@ -283,12 +282,18 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.js"> </script>
 	<script type="text/javascript">
 
-// calc line totals
-
+//------------------------------------------------------------------------------
+// on document ready do the following
+// --set up calc line total events
+// --hide the higher approvales until value dictates
+//------------------------------------------------------------------------------
 	$(function(){
 setupLineTotalEvt();
 });
 
+//------------------------------------------------------------------------------
+// set up calc line total events
+//------------------------------------------------------------------------------
 	function setupLineTotalEvt(){
 	var lineItem = $("tr.lineItemRow");   // one or more line items
 	var qty = lineItem.find("#qty");
@@ -316,33 +321,29 @@ setupLineTotalEvt();
 	}
 
 //------------------------------------------------------------------------------
+// Update line item numbers
+//------------------------------------------------------------------------------
+function updateLineNumbers() {
+	var liNum = 0;
+	$('.lineItemRow').each(function (index, value) {
+		liNum = liNum + 1;
+		$(value).find('#liNum').text(liNum);
+	});
+}
+//------------------------------------------------------------------------------
 // apend new line item to object
 //------------------------------------------------------------------------------
 $("#addItemBtn").click(function(event){
 				event.preventDefault();
-// find the length of the lineItemRow TR
-				var nliNum = $("tr.lineItemRow").length;
-				nliNum = nliNum + 1;    //add 1 for the next row
-
 // build the next line
-// corrected new line
-				var newItemLine = $('<tr class="lineItemRow"><td id ="liNum"></td></tr>');
-				//</td><td><input type="text" name="Part Number 1" size="25"></td><td><input type="text" name="Descripton 1" size="40"> </td><td><input type="number" id="qty" name="Quantity 1" size="10" maxlength="10"> </td><td><input type="text" id="price" name="Price 1" size="10"> </td><td><input type="text" id="lineTotal" name="Line 1 Total" readonly size="10" maxlength="10"></td><td> <input type="button" Delete value="Delete"> </td></tr>');
-
-//old new line
-//				var newItemLine = $(<tr class=\"lineItemRow\"> <td id =\"liNum\"></td><td><input type=\"text\" name=\"Part Number 1\" size=\"25\"</td><td><input type=\"text\" name=\"Descripton 1\" size=\"40\" </td><td><input type=\"number\" id=\"qty\" name=\"Quantity 1\" size=\"10\" maxlength=\"10\" /td> <td><input type=\"text\" id=\"price\" name=\"Price 1\" size=\"10\"/td><td><input type=\"text\" id=\"lineTotal\" name=\"Line 1 Total\" readonly size=\"10\" maxlength=\"10\"></td> <td> <input type=\"button\" Delete value=\"Delete\"> </td></tr>);
-// add the line item number to the table
-
+var newItemLine = $(" <tr class=\"lineItemRow\"> <td id =\"liNum\"></td><td><input type=\"text\" name=\"Part Number 1\" size=\"25\"</td><td><input type=\"text\" name=\"Descripton 1\" size=\"40\" </td><td><input type=\"number\" id=\"qty\" name=\"Quantity 1\" size=\"10\" maxlength=\"10\" /td> <td><input type=\"text\" id=\"price\" name=\"Price 1\" size=\"10\"/td><td id=\"lineTotal\"></td> <td> <input type=\"button\" Delete value=\"Delete\"> </td></tr>");
 // append the new line item row to the table
 				$(".LineItemTable").append(newItemLine);
-//				$('.LineItemTable').append('<tr class="lineItemRow"><td id ="liNum"></td><td><input type="text" name="Part Number 1" size="25"></td><td><input type="text" name="Descripton 1" size="40"> </td><td><input type="number" id="qty" name="Quantity 1" size="10" maxlength="10"> </td><td><input type="text" id="price" name="Price 1" size="10"> </td><td><input type="text" id="lineTotal" name="Line 1 Total" readonly size="10" maxlength="10"></td><td> <input type="button" Delete value="Delete"> </td></tr>');
 // scroll to the bottom of the
-				newItemLine.find("#liNum").text(nliNum);
 				$('html, body').animate({scrollTop:$(document).height()}, 'fast');
-
 				setupLineTotalEvt();
+				updateLineNumbers();
     });
-
 //------------------------------------------------------------------------------
 //	         CALULATE LINE TOTAL ON CHANGE
 //------------------------------------------------------------------------------
@@ -352,76 +353,32 @@ $("#addItemBtn").click(function(event){
 		var qty = lineItem.find("#qty").val();
 		var	price = lineItem.find("#price").val();
 		var lineTotal = qty * price;
-		lineItem.find("#lineTotal").val(lineTotal);
+		lineTotal = lineTotal * 100;
+		lineTotal = Math.round(lineTotal);
+		lineTotal = lineTotal / 100;
+		lineItem.find("#lineTotal").text(lineTotal);
 		calc_pr_total();
 }
-
 //------------------------------------------------------------------------------
 //	         CALULATE PR TOTAL ON lINE TOTAL CHANGE
 //------------------------------------------------------------------------------
 		function calc_pr_total(event){
 		var grandTotal = 0;
-
-
-		$("tr.lineItemRow").each(function (index, value) {
-///	$('#lineTotal').each(function(index,value){
-///  		console.log(index);
-//				var lineItem = obj.closest('.lineItemRow');
-//				var lineItem = value[index];
-//				var lineTotal = value.value;
-//				lineTotal = lineTotal.val();
-	grandTotal = grandTotal + index;
-	grandTotal = grandTotal + 1;
-	$("#prTotal").text(grandTotal);
-
-		});
-
-
-//		var obj = $(event.target);
-//		var lineItem = obj.closest("tr.lineItemRow");
-//		var qty = lineItem.find("#qty").val();
-//		var	price = lineItem.find("#price").val();
-//		var lineTotal = qty * price;
-//		lineItem.find("#lineTotal").val(lineTotal);
-
-
-
-//$("#lineTotal").each;
-//grandTotal +=1;
-//SW	($(this).text();
-
-
-//$("#prTotal").val(grandTotal);
-
+		$(".lineItemRow").each(function (index, value) {
+			var lineItem = $(value); // Convert raw HTML entity to jQuery object
+			var lineTotal = lineItem.find("#lineTotal").text(); // Find #lineTotal and return its current value
+			grandTotal = grandTotal + parseFloat(lineTotal);
+			$("#prTotal").text(grandTotal);
+			});
 }
-
 //------------------------------------------------------------------------------
 // this will remove the line item associated with the button
 //------------------------------------------------------------------------------
 		$('#lit').on('click', 'input[type="button"]', function () {
 		    $(this).closest('tr').remove();
 				calc_pr_total();
-
-
+				updateLineNumbers();
 });
-
-//------------------------------------------------------------------------------
-// this will remove the line item associated with the button
-//------------------------------------------------------------------------------
-$('#liNum');
-
-
-//$('#stuff').click(function(event){
-//	event.preventDefault();
-
-//var nliNum = $("tr.lineItemRow").length;
-//for (i=0; i < nliNum; ++i){
-//console.log(i+1);
-//};
-//});
-
-
-
 	</script>
 
 	</body>
