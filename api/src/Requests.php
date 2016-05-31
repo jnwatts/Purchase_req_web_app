@@ -40,8 +40,7 @@ class Requests extends Controller {
                     $this->checkDbError($db);
                 }
             }
-            $result = $reqs;
-            $response->getBody()->write(json_encode($result, true));
+            $response = $this->formatResponse($reqs, $response);
         } catch(\Exception $e) {
             $response = $this->formatError(400, $e->getMessage(), $response);
             $success = false;
@@ -120,7 +119,7 @@ class Requests extends Controller {
         try {
             $db->delete('requests', ['id' => $req]);
             $this->checkDbError($db);
-            $result = $this->formatResponse(['result' => $success]);
+            $result = $this->formatResponse(['result' => $success], $result);
             $response->getBody()->write($result);
         } catch(Exception $e) {
             $response = $this->formatError(400, $e->getMessage(), $response);
