@@ -3,7 +3,8 @@
     "require": {
         "catfan/medoo": "^1.0",
         "slim/slim": "^3.0",
-        "oscarotero/psr7-middlewares": "^3.15"
+        "oscarotero/psr7-middlewares": "^3.15",
+        "components/jquery": "^2.2"
     },
     "autoload": {
         "psr-0": {
