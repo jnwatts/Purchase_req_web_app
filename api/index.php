@@ -1,11 +1,14 @@
 <?php
 define('PURCHASE_REQS', 1);
 define('BASE_PATH', __DIR__);
-require BASE_PATH . '/config.inc.php';
-$loader = require BASE_PATH . '/vendor/autoload.php';
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+$config_file = BASE_PATH . '/config.inc.php';
+if (!file_exists($config_file)) {
+    die('You must create ' . $config_file . ' before using this API. See config.inc.sample.php for inspiration.');
+}
+require $config_file;
+
+$loader = require BASE_PATH . '/vendor/autoload.php';
 
 $container = new \Slim\Container([
     'settings' => [
@@ -16,8 +19,28 @@ $container = new \Slim\Container([
 ]);
 $app = new \Slim\App($container);
 
+$users = new \PurchaseReqs\Users($container);
+try {
+    if (isset($_SERVER["PHP_AUTH_USER"])) {
+        $users->initAuthUser($_SERVER["PHP_AUTH_USER"]);
+    } else {
+        $users->initAuthUser("");
+    }
+} catch (\Exception $e) {
+    die($e->getMessage());
+}
+
+use \Psr7Middlewares\Middleware\TrailingSlash;
+$app->add(new TrailingSlash(false));
+
 $app->get('/requests[/{req}]', '\PurchaseReqs\Requests:get');
 $app->post('/requests[/{req}]', '\PurchaseReqs\Requests:post');
 $app->delete('/requests/{req}', '\PurchaseReqs\Requests:delete');
+
+$app->get('/users[/{user}]', '\PurchaseReqs\Users:get');
+
+$app->get('/', function() use($app) {
+    return 'TODO: Self-documentation here';
+});
 
 $app->run();

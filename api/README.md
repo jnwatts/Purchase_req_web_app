@@ -1,8 +1,6 @@
 TODO
 ----
 
-* Move JS logic to module and discontinue heavy use of globals
-* Integrate LDAP logic from [credentials](https://github.com/jnwatts/credentials/blob/ba86621dfb32b225ac78ba3ff2fb89a8e8e7d1af/app/Helpers/User.php#L107)
 * Define roles
     * Admin: Access everything
     * Signatory: (Better name?) Elligable for signature field

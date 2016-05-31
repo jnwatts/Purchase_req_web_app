@@ -38,10 +38,12 @@ class Requests extends Controller {
                         ['request_items.request_id' => $r['id']]
                         );
                     $this->checkDbError($db);
+                    foreach ($r['items'] as &$i) {
+                        unset($i['request_id']);
+                    }
                 }
             }
-            $result = $reqs;
-            $response->getBody()->write(json_encode($result, true));
+            $response = $this->formatResponse($reqs, $response);
         } catch(\Exception $e) {
             $response = $this->formatError(400, $e->getMessage(), $response);
             $success = false;
@@ -65,7 +67,7 @@ class Requests extends Controller {
             unset($r->id);
         }
 
-        $this->db()->action(function ($db) use (&$r, &$response, &$req) {
+        $this->db()->action(function ($db) use (&$r, &$request, &$response, &$req) {
             $success = true;
             try {
 
@@ -84,7 +86,7 @@ class Requests extends Controller {
                 }
                 $this->checkDbError($db);
 
-                if ($items) {
+                if (is_array($items)) {
                     $db->delete('request_items', ['request_id' => $req]);
                     $this->checkDbError($db);
 
@@ -97,8 +99,7 @@ class Requests extends Controller {
                     }
                 }
 
-                $result = $this->formatResponse(['id' => $req]);
-                $response->getBody()->write($result);
+                $response = $this->get($request, $response, ['req' => $req]);
             } catch(\Exception $e) {
                 $response = $this->formatError(400, $e->getMessage(), $response);
                 $success = false;
@@ -121,7 +122,9 @@ class Requests extends Controller {
         try {
             $db->delete('requests', ['id' => $req]);
             $this->checkDbError($db);
-            $result = $this->formatResponse(['result' => $success]);
+            $db->delete('request_items', ['request_id' => $req]);
+            $this->checkDbError($db);
+            $result = $this->formatResponse(['result' => $success], $result);
             $response->getBody()->write($result);
         } catch(Exception $e) {
             $response = $this->formatError(400, $e->getMessage(), $response);

@@ -10,4 +10,27 @@ $config = [
         'charset' => 'utf8',
         'option' => [],
     ],
+
+    'ldap' => [
+        'ldap_url' => 'ldaps://ldap.server.com',
+        'bind_dn' => 'USER@DOMAIN',
+        'bind_pw' => 'PASSWORD',
+        'base_dn' => 'OU=Users,OU=MyBusiness,DC=d3,DC=local',
+        'user_params' => [
+            'username' => 'samaccountname',
+            'fullname' => 'displayname',
+            'email' => 'mail',
+            'groups' => 'memberof',
+        ],
+    ],
+
+    'user_debug' => [
+        'user_fields' => [
+            'username' => 'USER',
+            'fullname' => 'NAME',
+            'email' => 'EMAIL',
+            'groups' => '',
+        ],
+        'override_auth_user' => false,
+    ],
 ];
