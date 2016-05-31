@@ -38,6 +38,9 @@ class Requests extends Controller {
                         ['request_items.request_id' => $r['id']]
                         );
                     $this->checkDbError($db);
+                    foreach ($r['items'] as &$i) {
+                        unset($i['request_id']);
+                    }
                 }
             }
             $response = $this->formatResponse($reqs, $response);
