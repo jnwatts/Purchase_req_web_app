@@ -83,7 +83,7 @@ class Requests extends Controller {
                 }
                 $this->checkDbError($db);
 
-                if ($items) {
+                if (is_array($items)) {
                     $db->delete('request_items', ['request_id' => $req]);
                     $this->checkDbError($db);
 
