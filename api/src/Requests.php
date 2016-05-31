@@ -119,6 +119,8 @@ class Requests extends Controller {
         try {
             $db->delete('requests', ['id' => $req]);
             $this->checkDbError($db);
+            $db->delete('request_items', ['request_id' => $req]);
+            $this->checkDbError($db);
             $result = $this->formatResponse(['result' => $success], $result);
             $response->getBody()->write($result);
         } catch(Exception $e) {
