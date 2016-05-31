@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
 ?>
 <html>
 <body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="src/requests.js"></script>
 
 <?if (!$id) {?>
