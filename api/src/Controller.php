@@ -50,8 +50,16 @@ class Controller {
         }
     }
 
-    public function formatResponse($data) {
-        return json_encode(['data' => $data],true);
+    public function formatResponse($data, $response = null) {
+        $body = json_encode($data, true);
+
+        if ($response) {
+            $response = $response->withHeader('Content-Type', 'application/json; charset=UTF-8');
+            $response->getBody()->write($body);
+            return $response;
+        } else {
+            return $body;
+        }
     }
 
     public function formatError($code, $error, $response = null) {
