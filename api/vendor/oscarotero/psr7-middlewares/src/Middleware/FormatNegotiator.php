@@ -136,14 +136,13 @@ class FormatNegotiator
     {
         $format = $this->getFromExtension($request) ?: $this->getFromHeader($request) ?: $this->default;
         $contentType = $this->formats[$format][1][0].'; charset=utf-8';
-        $response = $response->withHeader('Content-Type', $contentType);
 
         $response = $next(
             self::setAttribute($request, self::KEY, $format),
             $response->withHeader('Content-Type', $contentType)
         );
 
-        if ($format && !$response->hasHeader('Content-Type')) {
+        if (!$response->hasHeader('Content-Type')) {
             $response = $response->withHeader('Content-Type', $contentType);
         }
 
