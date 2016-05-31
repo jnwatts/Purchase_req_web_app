@@ -21,7 +21,11 @@ $app = new \Slim\App($container);
 
 $users = new \PurchaseReqs\Users($container);
 try {
-    $users->initAuthUser($_SERVER["PHP_AUTH_USER"]);
+    if (isset($_SERVER["PHP_AUTH_USER"])) {
+        $users->initAuthUser($_SERVER["PHP_AUTH_USER"]);
+    } else {
+        $users->initAuthUser("");
+    }
 } catch (\Exception $e) {
     die($e->getMessage());
 }
