@@ -1,75 +1,20 @@
-<?
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-} else {
-    $id = null;
-}
-?>
 <html>
 <head>
 <style>
 #item_template { display: none; }
+#raw_data { font-family: monospace; }
+#edit_request { display: none; }
 </style>
 </head>
 <body>
-<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="src/requests.js"></script>
 
-<?if (!$id) {?>
+<h1>Request list</h1>
 <ul id="requests">
 </ul>
-<form action="api/requests" method="post" id="test">
-QuoteNum: <input type="text" name="QuoteNum" value="">
-<input type="submit" value="Add">
-</form>
-<div>
-    <h3>Raw data</h3>
-    <pre id="raw-data"></pre>
-</div>
-<script type="text/javascript">
-$(function() {
-    window.requests = new Requests({base_href: window.location.pathname.replace('test.php', '')});
-    window.req_form = $('form#test');
-    window.req_form.on('submit', function(event) {
-        event.preventDefault();
-        var req = req_from_form(window.req_form);
-        window.requests.put_or_add(req)
-            .done(function(data) {
-                update_request_list();
-                req_form[0].reset();
-            })
-            .fail(function(data) {
-                alert(data.responseJSON.errors[0].detail);
-            });
-        return false;
-    });
+QuoteNum: <input type="text" id="new_request_quote_num"><input id="new_request" type="button" value="Add">
 
-    update_request_list();
-
-});
-
-window.update_request_list = function() {
-    window.requests.get()
-        .done(function(data) {
-            var ul = $('ul#requests');
-            ul.children().remove();
-            if (data.length > 0) {
-                $.each(data, function (index) {
-                    var li = $('<li>');
-                    li.append('<a href="<?=$_SERVER['PHP_SELF']?>?id='+this.id+'">'+this.QuoteNum+'</a>');
-                    ul.append(li);
-                });
-            } else {
-                ul.append('<li>No requests</li>');
-            }
-            $('#raw-data').text(JSON.stringify(data, null, 2));
-        })
-        .fail(function(data) {
-            throw RangeError(data.responseJSON.errors[0].detail);
-        });
-};
-</script>
-<?} else {?>
+<div id="edit_request">
+<h1>Edit request</h1>
 <div id="item_template" class="item">
     Part Number: <input type="text" name="Part_Number">
     <input type="button" value="Delete" id="delete_item">
@@ -88,150 +33,138 @@ QuoteNum: <input type="text" name="QuoteNum">
 </form>
 <div>
     <h3>Raw data</h3>
-    <pre id="raw-data"></pre>
+    <pre id="raw_data"></pre>
 </div>
+</div>
+
+<script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="src/requests.js"></script>
+<script type="text/javascript" src="src/request_form.js"></script>
 <script type="text/javascript">
 $(function() {
-    window.requests = new Requests({base_href: window.location.pathname.replace('test.php', '')});
-    window.request_id = <?=$id?>;
-    window.req_form = $('form#test');
+    window.getQueryParams = function(qs) {
+        qs = qs.split('+').join(' ');
 
-    window.requests.get(request_id)
-        .done(function(data) {
-            form_from_req(window.req_form, data[0]);
-            $('#raw-data').text(JSON.stringify(data[0], null, 2));
-        });
+        var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+        while (tokens = re.exec(qs)) {
+            params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+        }
+
+        return params;
+    };
+
+    window.update_request_list = function() {
+        window.requests.get()
+            .done(function(data) {
+                var ul = $('ul#requests');
+                ul.children().remove();
+                if (data.length > 0) {
+                    $.each(data, function (index) {
+                        var req = this;
+                        a = $('<a href="#">'+req.QuoteNum+'</a>');
+                        a.attr('data-req-id', req.id);
+                        a.on('click', function(event) {
+                            event.preventDefault();
+                            window.request_id = $(this).attr('data-req-id');
+                            window.history.pushState(req, 'Quote ' + req.QuoteNum, '?id=' + req.id);
+                            window.get_request(window.request_id);
+                            return false;
+                        });
+                        ul.append($('<li>').append(a));
+                    });
+                } else {
+                    ul.append('<li>No requests</li>');
+                }
+            })
+            .fail(function(data) {
+                throw RangeError(data.responseJSON.errors[0].detail);
+            });
+    };
+
+    window.onpopstate = function(e){
+        if(e.state) {
+            window.get_request(e.state.id);
+        } else {
+            this.get_request(-1);
+        }
+    };
+
+    window.get_request = function(id) {
+        if (id >= 0) {
+            window.requests.get(id)
+                .done(function(data) {
+                    window.request_form.fromRequest(data[0]);
+                    $('#raw_data').text(JSON.stringify(data[0], null, 2));
+                    $('#edit_request').show();
+                });
+        } else {
+            window.request_form.clear();
+            $('#edit_request').hide();
+            $('#raw_data').text('');
+        }
+    };
+
+    window.query_params = window.getQueryParams(window.location.search);
+    window.req_form = $('form#test');
+    window.requests = new Requests({base_href: window.location.pathname.replace('test.php', '')});
+    window.request_form = new RequestForm({
+        form: window.req_form,
+        item_row_template: $('#item_template'),
+    });
+    window.request_id = parseInt(window.query_params.id);
+
+    $('#new_request').on('click', function(event) {
+        event.preventDefault();
+        window.request_form.clear();
+        var req = window.request_form.toRequest();
+        req.QuoteNum = $('#new_request_quote_num').val();
+        window.requests.put_or_add(req)
+            .done(function(data) {
+                window.update_request_list();
+                window.get_request(data[0].id);
+            });
+        return false;
+    });
+
     window.req_form.on('submit', function(event) {
         event.preventDefault();
-        var req = req_from_form($(this));
+        var req = window.request_form.toRequest();
 
         window.requests.put_or_add(req)
             .done(function(data) {
-                form_from_req(window.req_form, data[0]);
-                $('#raw-data').text(JSON.stringify(data[0], null, 2));
+                window.get_request(data[0].id);
             })
             .fail(function(data) {
                 alert(data.responseJSON.errors[0].detail);
             });
         return false;
     });
+
     window.req_form.find('#delete_request').on('click', function (e) {
         $.get({
             url: 'requests/' + request_id,
             method: 'DELETE',
         })
         .done(function() {
-            window.location.replace('<?=$_SERVER['PHP_SELF']?>');
+            window.update_request_list();
+            window.get_request(-1);
         });
     });
 
-    $('input#add_row').on('click', function(e) {
-        add_row(req_form);
+    $('#add_row').on('click', function(e) {
+        window.request_form.addRow();
     });
+
+    if (window.request_id >= 0) {
+        window.get_request(window.request_id);
+    }
+
+    window.update_request_list();
 });
 </script>
-<?}?>
 
-<script type="text/javascript">
-window.create_item_row = function(form) {
-    var item_div = $('#item_template').clone();
-    item_div.removeAttr('id');
-    item_div.find('#delete_item').on('click', function (e) {
-        $(this).closest('.item').remove();
-    });
-    return item_div;
-};
-window.add_row = function(form) {
-    var items_div = form.children('#items');
-    items_div.append(create_item_row(form));
-};
-
-window.struct_from_inputs = function(inputs) {
-    var struct = {};
-    inputs.each(function (index) {
-        var input = $(this);
-        if (input.attr('type') == 'submit' || input.attr('type') == 'reset' || input.attr('type') == 'button') {
-            return;
-        }
-        struct[input.attr('name')] = input.val();
-    });
-    return struct;
-};
-
-window.inputs_from_struct = function(container, struct) {
-    $.each(struct, function(key, val) {
-        container.find('input[name="'+key+'"]')
-            .val(val)
-            .attr('value', val);
-    });
-};
-
-window.req_from_form = function(form) {
-    var req = struct_from_inputs(form.find('input').not('#items input'));
-    req.items = [];
-    form.children('#items').children('.item').each(function() {
-        var item = struct_from_inputs($(this).find('input'));
-        req.items.push(item);
-    });
-    return req;
-};
-
-window.form_from_req = function(form, req) {
-    var items_div = form.children('#items')
-    items_div.children().remove();
-
-    inputs_from_struct(form, req);
-
-    $.each(req.items, function(key, val) {
-        var item_div = create_item_row(form);
-        inputs_from_struct(item_div, val);
-        items_div.append(item_div);
-    });
-
-};
-
-window.get_request = function(req) {
-    var form = window.req_form;
-    return $.getJSON("requests/"+req)
-};
-
-window.add_request = function(req) {
-    delete req.id;
-    return $.post({
-        url: "requests",
-        data: JSON.stringify(req),
-        contentType: "application/json; charset=UTF-8",
-        dataType: 'json',
-        processData: false,
-    });
-};
-
-(function($){
-    $.fn.extend({
-        getFullPath: function(stopAtBody){
-            stopAtBody = stopAtBody || false;
-            function traverseUp(el){
-                var o = $(el);
-                var result = o.prop('tagName');
-                var pare = o.parent()[0];
-                if (o.attr('id')) {
-                    result += '#' + o.attr('id');
-                }
-                if (o.attr('class')) {
-                    result += '.' + o.attr('class');
-                }
-                if (o.attr('name')) {
-                    result += '[name=\''+o.attr('name')+'\']';
-                }
-                if (pare && pare.tagName !== undefined && (!stopAtBody || pare.tagName !== 'BODY')){
-                    result = [traverseUp(pare), result].join(' ');
-                }
-                return result;
-            };
-            return this.length > 0 ? traverseUp(this[0]) : '';
-        }
-    });
-})(jQuery);
-</script>
 </body>
 </html>
