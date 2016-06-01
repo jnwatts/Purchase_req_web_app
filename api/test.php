@@ -225,7 +225,7 @@ window.add_request = function(req) {
                 }
                 if (pare && pare.tagName !== undefined && (!stopAtBody || pare.tagName !== 'BODY')){
                     result = [traverseUp(pare), result].join(' ');
-                }                
+                }
                 return result;
             };
             return this.length > 0 ? traverseUp(this[0]) : '';

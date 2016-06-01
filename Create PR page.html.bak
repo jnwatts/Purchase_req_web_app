@@ -361,10 +361,9 @@ $("#addItemBtn").click(function(event){
 		var qty = lineItem.find("#qty").val();
 		var	price = lineItem.find("#price").val();
 		var lineTotal = qty * price;
-//		lineTotal = lineTotal * 100;
-//		lineTotal = Math.round(lineTotal);
-//		lineTotal = lineTotal / 100;
-		lineTotal = lineTotal.toFixed(2)  //this will round and provide 2 decimal places
+		lineTotal = lineTotal * 100;
+		lineTotal = Math.round(lineTotal);
+		lineTotal = lineTotal / 100;
 		lineItem.find("#lineTotal").text(lineTotal);
 		calc_pr_total();
 }
