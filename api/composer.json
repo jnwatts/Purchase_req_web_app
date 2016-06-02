@@ -8,7 +8,9 @@
     },
     "autoload": {
         "psr-0": {
-            "PurchaseReqs\\": "src/"
+            "PurchaseReqs\\": "src/",
+            "PurchaseReqs\\Controllers\\": "src/Controllers",
+            "PurchaseReqs\\Models\\": "src/Models"
         }
     }
 }
