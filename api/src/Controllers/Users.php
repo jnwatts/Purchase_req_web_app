@@ -26,37 +26,12 @@ class Users extends \PurchaseReqs\Controller {
         }
     }
 
-    public function get($request, $response, $args) {
-        $result = null;
-        $id = null;
-        if (isset($args["user"])) {
-            $id = $args["user"];
-        }
-
-        try {
-            if ($id) {
-                $result = $this->model->byId($id);
-            } else {
-                $result = $this->model->all();
-            }
-
-            if ($id && (!$result || count($result) == 0)) {
-                $response = $this->formatError(404, "Not found", $response);
-            } else {
-                $response = $this->formatResponse($result, $response);
-            }
-        } catch(\Exception $e) {
-            $response = $this->formatError(400, $e->getMessage(), $response);
-        }
-
-        return $response;
-    }
-
     public function post($request, $response, $args) {
-        
+        return $this->formatError(401, "Not authorized", $response);
     }
 
     public function delete($request, $response, $args) {
+        return $this->formatError(401, "Not authorized", $response);
     }
 
     public function initAuthUser($username) {

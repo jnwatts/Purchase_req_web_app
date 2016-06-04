@@ -50,6 +50,7 @@ class Requests extends \PurchaseReqs\Model {
 
     public function update($id, $req) {
         $error = null;
+
         $this->db()->action(function ($db) use (&$id, &$req, &$error) {
             $success = true;
 

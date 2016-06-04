@@ -32,7 +32,6 @@ class Roles extends \PurchaseReqs\Model {
 		];
 	}
 
-
 	public function rolesFromUser($user_id) {
 		$db = $this->db();
 		$user_roles = $db->select('user_role', '*', ['user_role.user_id' => $user_id]);

@@ -33,11 +33,11 @@ try {
 use \Psr7Middlewares\Middleware\TrailingSlash;
 $app->add(new TrailingSlash(false));
 
-$app->get('/requests[/{req}]', '\PurchaseReqs\Controllers\Requests:get');
-$app->post('/requests[/{req}]', '\PurchaseReqs\Controllers\Requests:post');
-$app->delete('/requests/{req}', '\PurchaseReqs\Controllers\Requests:delete');
+$app->get('/requests[/{id}]', '\PurchaseReqs\Controllers\Requests:get');
+$app->post('/requests[/{id}]', '\PurchaseReqs\Controllers\Requests:post');
+$app->delete('/requests/{id}', '\PurchaseReqs\Controllers\Requests:delete');
 
-$app->get('/users[/{user}]', '\PurchaseReqs\Controllers\Users:get');
+$app->get('/users[/{id}]', '\PurchaseReqs\Controllers\Users:get');
 
 $app->get('/', function() use($app) {
     return 'TODO: Self-documentation here';
