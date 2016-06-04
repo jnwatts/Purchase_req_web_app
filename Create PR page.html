@@ -341,7 +341,7 @@ $("#addItemBtn").click(function(event){
 	event.preventDefault();
 
 // build the next line
-	var newItemLine = $("<tr class=\"lineItemRow\"> <td id =\"liNum\"></td><td><input type=\"text\" name=\"Part Number 1\" size=\"25\"</td><td><input type=\"text\" name=\"Descripton 1\" size=\"40\" </td><td><input type=\"number\" id=\"qty\" name=\"Quantity 1\" size=\"10\" maxlength=\"10\" </td><td>$<input type=\"text\" id=\"price\" name=\"Price 1\" size=\"10\"</td><td id=\"lineTotal\"></td><td> <input type=\"button\" Delete value=\"Delete\"> </td></tr>");
+	var newItemLine = $("<tr class=\"lineItemRow\"> <td id =\"liNum\"></td><td><input type=\"text\" name=\"Part Number 1\" size=\"25\"</td><td><input type=\"text\" name=\"Descripton 1\" size=\"40\" </td><td><input type=\"number\" id=\"qty\" name=\"Quantity 1\" size=\"10\" maxlength=\"10\" </td><td><input type=\"text\" id=\"price\" name=\"Price 1\" size=\"10\"</td><td id=\"lineTotal\"></td><td> <input type=\"button\" Delete value=\"Delete\"> </td></tr>");
 // append the new line item row to the LineItemTable
 	$(".LineItemTable").append(newItemLine);
 
@@ -379,11 +379,23 @@ function calc_pr_total(event){
 	var strArray = lineTotal.split("$",2);
 	strArray.shift();
 	grandTotal = grandTotal + parseFloat(strArray);
-	grandTotal = grandTotal.toFixed(2)
+	grandTotal = grandTotal.toFixed(2);
+	
+	if (grandTotal > 4999) {
+		$(".accounting").show();
+		$(".managment").show();
+	} else if (grandTotal > 999) {
+		$(".accounting").show();
+		$(".managment").hide();
+	} else {
+		$(".accounting").hide();
+		$(".managment").hide();
+	}
 	grandTotal = "$"+grandTotal;
 	$("#prTotal").text(grandTotal);
 	});
-}
+	}
+
 //------------------------------------------------------------------------------
 // this will remove the line item associated with the button
 //------------------------------------------------------------------------------
