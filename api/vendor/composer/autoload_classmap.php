@@ -112,6 +112,7 @@ return array(
     'Psr\\Http\\Message\\UriInterface' => $vendorDir . '/psr/http-message/src/UriInterface.php',
     'PurchaseReqs\\Controller' => $baseDir . '/src/Controller.php',
     'PurchaseReqs\\Controllers\\Requests' => $baseDir . '/src/Controllers/Requests.php',
+    'PurchaseReqs\\Controllers\\Roles' => $baseDir . '/src/Controllers/Roles.php',
     'PurchaseReqs\\Controllers\\Users' => $baseDir . '/src/Controllers/Users.php',
     'PurchaseReqs\\Ldap' => $baseDir . '/src/Ldap.php',
     'PurchaseReqs\\Model' => $baseDir . '/src/Model.php',

@@ -39,6 +39,8 @@ $app->delete('/requests/{id}', '\PurchaseReqs\Controllers\Requests:delete');
 
 $app->get('/users[/{id}]', '\PurchaseReqs\Controllers\Users:get');
 
+$app->get('/roles[/{id}]', '\PurchaseReqs\Controllers\Roles:get');
+
 $app->get('/', function() use($app) {
     return 'TODO: Self-documentation here';
 });

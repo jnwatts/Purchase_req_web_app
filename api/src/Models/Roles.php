@@ -60,8 +60,13 @@ class Roles extends \PurchaseReqs\Model {
 	}
 
 	public function byId($role_id) {
-		assert($role_id < count($this->roles));
-		return $this->roles[$role_id];
+		assert($role_id > 0);
+		assert($role_id <= count($this->roles));
+		return $this->roles[$role_id - 1];
+	}
+
+	public function all() {
+		return $this->roles;
 	}
 }
 
