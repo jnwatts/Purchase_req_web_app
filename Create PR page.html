@@ -296,7 +296,7 @@
 //------------------------------------------------------------------------------
 // set up calc line total events
 //------------------------------------------------------------------------------
-	function setupLineTotalEvt(){
+function setupLineTotalEvt(){
 	var lineItem = $("tr.lineItemRow");   // one or more line items
 	var qty = lineItem.find("#qty");
 	var price = lineItem.find("#price");
@@ -327,9 +327,9 @@
 //------------------------------------------------------------------------------
 function updateLineNumbers() {
 	var liNum = 0;
-	$('.lineItemRow').each(function (index, value) {
+	$(".lineItemRow").each(function (index, value) {
 		liNum = liNum + 1;
-		$(value).find('#liNum').text(liNum);
+		$(value).find("#liNum").text(liNum);
 	});
 }
 
@@ -338,56 +338,59 @@ function updateLineNumbers() {
 // apend new line item to object
 //------------------------------------------------------------------------------
 $("#addItemBtn").click(function(event){
-				event.preventDefault();
+	event.preventDefault();
 
 // build the next line
-				var newItemLine = $("<tr class=\"lineItemRow\"> <td id =\"liNum\"></td><td><input type=\"text\" name=\"Part Number 1\" size=\"25\"</td><td><input type=\"text\" name=\"Descripton 1\" size=\"40\" </td><td><input type=\"number\" id=\"qty\" name=\"Quantity 1\" size=\"10\" maxlength=\"10\" </td><td><input type=\"text\" id=\"price\" name=\"Price 1\" size=\"10\"</td><td id=\"lineTotal\"></td><td> <input type=\"button\" Delete value=\"Delete\"> </td></tr>");
+	var newItemLine = $("<tr class=\"lineItemRow\"> <td id =\"liNum\"></td><td><input type=\"text\" name=\"Part Number 1\" size=\"25\"</td><td><input type=\"text\" name=\"Descripton 1\" size=\"40\" </td><td><input type=\"number\" id=\"qty\" name=\"Quantity 1\" size=\"10\" maxlength=\"10\" </td><td>$<input type=\"text\" id=\"price\" name=\"Price 1\" size=\"10\"</td><td id=\"lineTotal\"></td><td> <input type=\"button\" Delete value=\"Delete\"> </td></tr>");
 // append the new line item row to the LineItemTable
-				$(".LineItemTable").append(newItemLine);
+	$(".LineItemTable").append(newItemLine);
 
 // scroll to the bottom of the page
-				$('html, body').animate({scrollTop:$(document).height()}, 'fast');
-
-				setupLineTotalEvt();
-				updateLineNumbers();
+	$("html, body").animate({scrollTop:$(document).height()}, "fast");
+		setupLineTotalEvt();
+		updateLineNumbers();
     });
 
 //------------------------------------------------------------------------------
 //	         CALULATE LINE TOTAL ON CHANGE
 //------------------------------------------------------------------------------
-		function calc_line_total(event){
-		var obj = $(event.target);
-		var lineItem = obj.closest("tr.lineItemRow");
-		var qty = lineItem.find("#qty").val();
-		var	price = lineItem.find("#price").val();
+function calc_line_total(event){
+	var obj = $(event.target);
+	var lineItem = obj.closest("tr.lineItemRow");
+	var qty = lineItem.find("#qty").val();
+	var	price = lineItem.find("#price").val();
+	if (qty > 0 && price > 0) {
 		var lineTotal = qty * price;
-//		lineTotal = lineTotal * 100;
-//		lineTotal = Math.round(lineTotal);
-//		lineTotal = lineTotal / 100;
 		lineTotal = lineTotal.toFixed(2)  //this will round and provide 2 decimal places
+		lineTotal = "$"+lineTotal;
 		lineItem.find("#lineTotal").text(lineTotal);
 		calc_pr_total();
+	}
 }
 
 //------------------------------------------------------------------------------
 //	         CALULATE PR TOTAL ON lINE TOTAL CHANGE
 //------------------------------------------------------------------------------
-		function calc_pr_total(event){
-		var grandTotal = 0;
-		$(".lineItemRow").each(function (index, value) {
-			var lineItem = $(value); // Convert raw HTML entity to jQuery object
-			var lineTotal = lineItem.find("#lineTotal").text(); // Find #lineTotal and return its current value
-			grandTotal = grandTotal + parseFloat(lineTotal);
-			$("#prTotal").text(grandTotal);
-			});
+function calc_pr_total(event){
+	var grandTotal = 0;
+	$(".lineItemRow").each(function (index, value) {
+	var lineItem = $(value); // Convert raw HTML entity to jQuery object
+	var lineTotal = lineItem.find("#lineTotal").text(); // Find #lineTotal and return its current value
+	var strArray = lineTotal.split("$",2);
+	strArray.shift();
+	grandTotal = grandTotal + parseFloat(strArray);
+	grandTotal = grandTotal.toFixed(2)
+	grandTotal = "$"+grandTotal;
+	$("#prTotal").text(grandTotal);
+	});
 }
 //------------------------------------------------------------------------------
 // this will remove the line item associated with the button
 //------------------------------------------------------------------------------
-		$('#lit').on('click', 'input[type="button"]', function () {
-		    $(this).closest('tr').remove();
-				calc_pr_total();
-				updateLineNumbers();
+$("#lit").on('click', 'input[type="button"]', function () {
+	$(this).closest("tr").remove();
+		calc_pr_total();
+		updateLineNumbers();
 });
 	</script>
 
