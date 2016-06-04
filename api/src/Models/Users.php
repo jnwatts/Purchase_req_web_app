@@ -2,13 +2,18 @@
 namespace PurchaseReqs\Models;
 if (!defined('PURCHASE_REQS')) { die('Oops!'); }
 
+use \PurchaseReqs\Models\Roles as RolesModel;
+
 class Users extends \PurchaseReqs\Model {
+    private $roles = null;
+
     public function __construct($ci) {
         $this->tables = [
             'users',
-            'user_role',
         ];
         parent::__construct($ci);
+
+        $this->roles = new RolesModel($ci);
     }
 
     protected function get($where = null) {
@@ -26,11 +31,7 @@ class Users extends \PurchaseReqs\Model {
                     unset($user['groups']);
                 // $user['groups'] = json_decode($user['groups'], true);
 
-                //TODO: Use RolesModel
-                $roles = $db->select('user_role', '*', ['user_role.user_id' => $user['id']]);
-                $this->checkDbError($db);
-
-                $user['roles'] = $roles;
+                $user['roles'] = $this->roles->rolesFromUser($user['id']);
             }
         }
 
